@@ -3,13 +3,13 @@ import Logo from '../../../logo/Logo';
 
 const Footer = () => {
     return (
-        <footer className="footer footer-horizontal footer-center p-10">
+        <footer className="footer footer-horizontal text-primary footer-center p-10">
             <aside>
                 <Logo></Logo>
                 <p className="font-bold">
-                    ACME Industries Ltd.
+                    go-parcel
                     <br />
-                    Providing reliable tech since 1992
+                    Providing reliable delivery since 1997
                 </p>
                 <p>Copyright © {new Date().getFullYear()} - All right reserved</p>
             </aside>
