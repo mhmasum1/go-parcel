@@ -5,10 +5,12 @@ import Footer from '../home/shared/footer/Footer';
 
 const RootLayouts = () => {
     return (
-        <div className='max-w-7xl mx-auto'>
-            <Navbar></Navbar>
-            <Outlet></Outlet>
-            <Footer></Footer>
+        <div className='bg-gray-100'>
+            <div className='max-w-7xl mx-auto '>
+                <Navbar></Navbar>
+                <Outlet></Outlet>
+                <Footer></Footer>
+            </div>
         </div>
     );
 };
