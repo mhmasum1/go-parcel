@@ -1,7 +1,11 @@
 import React, { use } from 'react';
-import { EffectCoverflow, Pagination } from 'swiper/modules';
+import { Autoplay, EffectCoverflow, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import ReviewCart from './ReviewCart';
+
+import 'swiper/css';
+import 'swiper/css/effect-coverflow';
+import 'swiper/css/pagination';
 
 const Reviews = ({ reviewsPromise }) => {
     const reviews = use(reviewsPromise);
@@ -13,6 +17,7 @@ const Reviews = ({ reviewsPromise }) => {
                 <p className='text-primary'>Enhance posture, mobility, and well-being effortlessly with Posture Pro. Achieve proper alignment, reduce pain, and strengthen your body with ease!</p>
             </div>
             <Swiper
+            loop={true}
                 effect={'coverflow'}
                 grabCursor={true}
                 centeredSlides={true}
@@ -24,13 +29,22 @@ const Reviews = ({ reviewsPromise }) => {
                     modifier: 1,
                     slideShadows: true,
                 }}
-                pagination={true}
-                modules={[EffectCoverflow, Pagination]}
+                 autoplay={{
+          delay: 2500,
+          disableOnInteraction: false,
+        }}
+        pagination={{
+          clickable: true,
+        }}
+            
+                modules={[Autoplay,EffectCoverflow, Pagination]}
                 className="mySwiper"
             >
                 {
                     reviews.map(review => (
-                        <SwiperSlide key={review.id}>
+                        <SwiperSlide 
+                        key={review.id}
+                        >
                             <ReviewCart review={review}></ReviewCart>
                         </SwiperSlide>
                     ))

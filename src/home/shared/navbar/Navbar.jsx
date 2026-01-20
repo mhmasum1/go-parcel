@@ -1,10 +1,12 @@
 import React from 'react';
 import Logo from '../../../logo/Logo';
+import { NavLink } from 'react-router';
 
 const Navbar = () => {
     const links = <>
-        <li><a>Service</a></li>
-        <li><a>Service</a></li>
+        <li ><NavLink to="about">About</NavLink></li>
+         <li ><NavLink to="coverage">Coverage</NavLink></li>
+
     </>
     return (
         <div className="navbar bg-base-100 shadow-sm mb-5">
