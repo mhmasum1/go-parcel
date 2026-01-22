@@ -42,6 +42,9 @@ const Login = () => {
                                     className="input w-full"
                                     placeholder="Email"
                                 />
+                                {errors.email?.type === 'required' && (
+                                    <p className="text-red-500">Email is required</p>
+                                )}
                             </div>
 
                             <div>
@@ -52,6 +55,9 @@ const Login = () => {
                                     className="input w-full"
                                     placeholder="Password"
                                 />
+                                {errors.password?.type === 'required' && (
+                                    <p className="text-red-500">Password is required</p>
+                                )}
                             </div>
 
                             <div>
