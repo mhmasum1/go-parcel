@@ -1,6 +1,8 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import useAuth from '../../../Hooks/useAuth';
+import { Link } from 'react-router';
+import SocailLogIn from '../Social/SocailLogIn';
 
 const Login = () => {
 
@@ -19,31 +21,59 @@ const Login = () => {
     return (
 
 
-        <div>
-            <div>
-                <h3 className='text-2xl font-bold'>Welcome to Go-Parcel</h3>
+        <div className="flex flex-col items-center">
+            <div className="text-center mb-6">
+                <h3 className="text-2xl font-bold">Welcome Back to Go-Parcel</h3>
                 <p>Please Login</p>
             </div>
-            <form onSubmit={handleSubmit(handleLogin)}>
-                <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
-                    <div className="card-body">
-                        <fieldset className="fieldset">
-                            {/* email */}
-                            <label className="label">Email</label>
-                            <input type="email" {...register("email", { required: true })} className="input" placeholder="Email" />
-                            {errors.email?.type === "required" && <p className='text-red-500'>Email is required </p>}
-                            {/* password */}
-                            <label className="label">Password</label>
-                            <input type="password" {...register("password", { required: true })} className="input" placeholder="Password" />
-                            {errors.password?.type === "required" && <p className='text-red-500'>password is required </p>}
 
-                            <div><a className="link link-hover">Forgot password?</a></div>
-                            <button className="btn btn-neutral mt-4">Login</button>
-                        </fieldset>
+            <form onSubmit={handleSubmit(handleLogin)} className="w-full flex justify-center">
+
+                <div className="card bg-base-100 w-lg shadow-2xl">
+                    <div className="card-body">
+
+                        <div className="space-y-4">
+
+                            <div>
+                                <label className="label">Email</label>
+                                <input
+                                    type="email"
+                                    {...register("email", { required: true })}
+                                    className="input w-full"
+                                    placeholder="Email"
+                                />
+                            </div>
+
+                            <div>
+                                <label className="label">Password</label>
+                                <input
+                                    type="password"
+                                    {...register("password", { required: true })}
+                                    className="input w-full"
+                                    placeholder="Password"
+                                />
+                            </div>
+
+                            <div>
+                                <a className="link link-hover">Forgot password?</a>
+                            </div>
+
+                            <button className="btn btn-neutral w-full">
+                                Login
+                            </button>
+                            <p className='flex gap-1 mb-3 '>
+                                <span>Don't have an account? Please
+                                </span>
+                                <Link className="text-blue-500" to='/register'>Register</Link>
+                            </p>
+
+                        </div>
+                        <SocailLogIn></SocailLogIn>
                     </div>
                 </div>
             </form>
         </div>
+
     )
 }
 

@@ -6,11 +6,14 @@ const AuthLayout = () => {
     return (
         <div className='max-w-7xl mx-auto'>
             <Logo></Logo>
+
             <div className='flex'>
-                <div className='flex-1'>
+                {/* leftside */}
+                <div className='flex-1 items-center justify-center'>
                     <Outlet></Outlet>
                 </div>
-                <div className='flex-1'>
+                {/* rightside */}
+                <div className='flex-1 items-center justify-center'>
                     <img src={authImg} alt="" />
                 </div>
             </div>
