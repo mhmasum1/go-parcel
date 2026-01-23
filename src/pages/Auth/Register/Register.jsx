@@ -1,12 +1,16 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import useAuth from '../../../Hooks/useAuth'
-import { Link } from 'react-router'
+import { Link, useLocation, useNavigate } from 'react-router'
 import SocailLogIn from '../Social/SocailLogIn'
 import axios from 'axios'
 
 const Register = () => {
-    const { registerUser, updateUserProfile } = useAuth()
+    const { registerUser, updateUserProfile } = useAuth();
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    console.log("in the register Page", location)
 
     const {
         register,
@@ -41,6 +45,7 @@ const Register = () => {
                 updateUserProfile(userProfile)
                     .then(() => {
                         console.log("user profile updated done ")
+                        navigate(location?.state || "/")
                     })
                     .catch(error => {
                         console.log(error)
@@ -127,7 +132,7 @@ const Register = () => {
                             <button className="btn btn-neutral w-full">Register</button>
                             <p className='flex gap-1 mb-3 '>
                                 <span>Already have an account, Please</span>
-                                <Link className="text-blue-500" to='/login'>Login</Link>
+                                <Link state={location.pathname} className="text-blue-500" to='/login'>Login</Link>
                             </p>
                         </div>
                         <SocailLogIn></SocailLogIn>

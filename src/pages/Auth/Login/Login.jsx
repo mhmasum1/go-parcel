@@ -1,18 +1,24 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import useAuth from '../../../Hooks/useAuth';
-import { Link } from 'react-router';
+import { Link, useLocation, useNavigate } from 'react-router';
 import SocailLogIn from '../Social/SocailLogIn';
 
 const Login = () => {
 
     const { signInUser } = useAuth();
 
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    console.log("in the login page", location);
+
     const { register, handleSubmit, formState: { errors } } = useForm();
     const handleLogin = (data) => {
         signInUser(data.email, data.password)
             .then(result => {
                 console.log(result.user)
+                navigate(location?.state || "/");
             })
             .catch(error => {
                 console.log(error);
@@ -70,7 +76,7 @@ const Login = () => {
                             <p className='flex gap-1 mb-3 '>
                                 <span>Don't have an account? Please
                                 </span>
-                                <Link className="text-blue-500" to='/register'>Register</Link>
+                                <Link state={location.state} className="text-blue-500" to='/register'>Register</Link>
                             </p>
 
                         </div>
