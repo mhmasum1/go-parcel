@@ -7,7 +7,6 @@ const SocailLogIn = () => {
     const { signInGoogle } = useAuth();
 
     const location = useLocation();
-    console.log("in the social Page ", location);
     const navigate = useNavigate();
 
     const hangleGoogleSignIn = () => {

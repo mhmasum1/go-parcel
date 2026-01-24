@@ -10,8 +10,6 @@ const Register = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
-    console.log("in the register Page", location)
-
     const {
         register,
         handleSubmit,

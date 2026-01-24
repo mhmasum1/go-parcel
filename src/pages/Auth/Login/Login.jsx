@@ -11,8 +11,6 @@ const Login = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
-    console.log("in the login page", location);
-
     const { register, handleSubmit, formState: { errors } } = useForm();
     const handleLogin = (data) => {
         signInUser(data.email, data.password)
