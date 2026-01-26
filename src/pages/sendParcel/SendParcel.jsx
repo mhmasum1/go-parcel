@@ -1,14 +1,16 @@
 import React from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { useLoaderData } from 'react-router';
+import Swal from 'sweetalert2';
 
 const SendParcel = () => {
-    const { register, handleSubmit, watch } = useForm();
+    const { register, handleSubmit, control } = useForm();
 
     const centersArea = useLoaderData();
     const duplicateRegions = centersArea.map(d => (d.region))
     const region = [...new Set(duplicateRegions)]
-    const senderRegion = watch("senderRegion");
+    const senderRegion = useWatch({ control, name: "senderRegion" });
+    const receiverRegion = useWatch({ control, name: "receiverRegion" });
 
     const districtByRegion = region => {
         const regionDistrict = centersArea.filter(c => c.region === region);
@@ -16,8 +18,50 @@ const SendParcel = () => {
         return district;
     }
 
-    const handleFormInfo = (data) => {
+    const handleSendParcel = (data) => {
         console.log(data);
+
+        const isDocument = data.percelType === 'document';
+        const isSameDistrict = data.senderDistrict === data.receiverDistrict;
+        const parcelWeight = parseFloat(data.parcelWeight);
+
+        let cost = 0;
+        if (isDocument) {
+            cost = isSameDistrict ? 60 : 80;
+        }
+        else {
+            if (parcelWeight < 3) {
+                cost = isSameDistrict ? 110 : 150;
+            }
+            else {
+                const minCharge = isSameDistrict ? 110 : 150;
+                const extraWeight = parcelWeight - 3;
+                const extraCharge = isSameDistrict ? extraWeight * 40 : extraWeight * 40 + 40;
+
+                cost = minCharge + extraCharge;
+            }
+        }
+
+        console.log('cost', cost);
+
+        Swal.fire({
+            title: "Agree with the Cost?",
+            text: `You will be charged ${cost} taka`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "I agree"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Swal.fire({
+                //     title: "Deleted!",
+                //     text: "Your file has been deleted.",
+                //     icon: "success"
+                // });
+            }
+        });
+
     }
 
     return (
@@ -25,15 +69,15 @@ const SendParcel = () => {
             <h3 className="font-bold text-3xl text-center my-5">Send A Parcel</h3>
             <h5 className='font-bold text-2xl'>Enter your parcel details</h5>
 
-            <form onSubmit={handleSubmit(handleFormInfo)}>
+            <form onSubmit={handleSubmit(handleSendParcel)}>
                 {/* documents */}
                 <div className='my-3'>
                     <label className='label mx-5'>
-                        <input type="radio" {...register("document")} value="document" className="radio " defaultChecked />
+                        <input type="radio" {...register("percelType")} value="document" className="radio " defaultChecked />
                         Document
                     </label>
                     <label className='label'>
-                        <input type="radio" {...register("document")} value="non-document" className="radio" />
+                        <input type="radio" {...register("percelType")} value="non-document" className="radio" />
                         Non-Document
                     </label>
                 </div>
@@ -120,10 +164,32 @@ const SendParcel = () => {
                             <label className="label">Receiver Phone No</label>
                             <input {...register("receiverPhoneNumber")} type="text" className="input w-full" placeholder="Receiver Phone No" />
                         </fieldset>
+
+                        {/* Reciver region */}
                         <fieldset className="fieldset">
-                            <label className="label">Receiver District</label>
-                            <input {...register("receiverDistrict")} type="text" className="input w-full" placeholder="Receiver District" />
+                            <label className="label">Reciver region</label>
+                            <select {...register("receiverRegion")} defaultValue="Pick a region" className="select">
+                                <option disabled={true}>Pick a region</option>
+                                {
+                                    region.map((d, i) => <option value={d} key={i}>{d}</option>)
+                                }
+                            </select>
                         </fieldset>
+
+                        {/* Reciver District */}
+
+                        <fieldset className="fieldset">
+                            <label className="label">Reciver District</label>
+                            <select {...register("receiverDistrict")} defaultValue="Pick a district" className="select">
+                                <option disabled={true}>Pick a District</option>
+                                {
+                                    districtByRegion(receiverRegion).map((d, i) => <option value={d} key={i}>{d}</option>)
+                                }
+
+
+                            </select>
+                        </fieldset>
+
                         <fieldset className="fieldset">
                             <label className="label">Delivery Instruction</label>
                             <input {...register("deliveryInstruction")} type="text" className="input w-full h-20" placeholder="Delivery Instruction" />
