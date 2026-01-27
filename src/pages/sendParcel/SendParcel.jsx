@@ -2,9 +2,15 @@ import React from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { useLoaderData } from 'react-router';
 import Swal from 'sweetalert2';
+import useAxiosSecure from '../../Hooks/useAxiosSecure';
+import useAuth from '../../Hooks/useAuth';
 
 const SendParcel = () => {
     const { register, handleSubmit, control } = useForm();
+
+
+    const axiosSequre = useAxiosSecure();
+    const { user } = useAuth();
 
     const centersArea = useLoaderData();
     const duplicateRegions = centersArea.map(d => (d.region))
@@ -19,7 +25,6 @@ const SendParcel = () => {
     }
 
     const handleSendParcel = (data) => {
-        console.log(data);
 
         const isDocument = data.percelType === 'document';
         const isSameDistrict = data.senderDistrict === data.receiverDistrict;
@@ -42,7 +47,7 @@ const SendParcel = () => {
             }
         }
 
-        console.log('cost', cost);
+        // console.log('cost', cost);
 
         Swal.fire({
             title: "Agree with the Cost?",
@@ -54,6 +59,13 @@ const SendParcel = () => {
             confirmButtonText: "I agree"
         }).then((result) => {
             if (result.isConfirmed) {
+
+                axiosSequre.post('/parcels', data)
+                    .then(res => {
+                        console.log("after make a parcel", res.data);
+                    })
+
+
                 // Swal.fire({
                 //     title: "Deleted!",
                 //     text: "Your file has been deleted.",
@@ -107,8 +119,13 @@ const SendParcel = () => {
                     <div>
                         <fieldset className="fieldset">
                             <h3 className='font-bold text-2xl'>Sender Details</h3>
+                            <label className="label">Sender Email</label>
+                            <input {...register("senderEmail")} defaultValue={user.email} type="text" className="input w-full" placeholder="Sender Email" />
+                        </fieldset>
+
+                        <fieldset className="fieldset">
                             <label className="label">Sender Name</label>
-                            <input {...register("senderName")} type="text" className="input w-full" placeholder="Sender Name" />
+                            <input {...register("senderName")} defaultValue={user.displayName} type="text" className="input w-full" placeholder="Sender Name" />
                         </fieldset>
                         <fieldset className="fieldset">
                             <label className="label">Address</label>
@@ -152,7 +169,12 @@ const SendParcel = () => {
                     {/* receiver */}
                     <div>
                         <fieldset className="fieldset">
-                            <h3 className='font-bold text-2xl'>   Receiver Details</h3>
+                            <h3 className='font-bold text-2xl'>Receiver Details</h3>
+                            <label className="label">Receiver Email</label>
+                            <input {...register("receiverEmail")} type="text" className="input w-full" placeholder="Receiver Email" />
+                        </fieldset>
+
+                        <fieldset className="fieldset">
                             <label className="label">Receiver Name</label>
                             <input {...register("receiverName")} type="text" className="input w-full" placeholder="Receiver Name" />
                         </fieldset>
