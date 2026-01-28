@@ -63,7 +63,7 @@ const SendParcel = () => {
 
                 axiosSequre.post('/parcels', data)
                     .then(res => {
-                        console.log("after make a parcel", res.data);
+                        console.log(res.data);
                     })
 
 
