@@ -10,6 +10,7 @@ import Rider from "../pages/Rider/Rider";
 import SendParcel from "../pages/sendParcel/SendParcel";
 import DashboardLayout from "../layouts/Dashboard/DashboardLayout";
 import MyPercel from "../pages/MyPercel/MyPercel";
+import Payment from "../layouts/Dashboard/Payment/Payment";
 
 export const router = createBrowserRouter([
     {
@@ -57,6 +58,10 @@ export const router = createBrowserRouter([
             {
                 path: "my-percels",
                 Component: MyPercel
+            },
+            {
+                path: "payment/:parcelId",
+                Component: Payment
             }
         ]
     }

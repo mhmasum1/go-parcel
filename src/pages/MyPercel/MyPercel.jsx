@@ -6,6 +6,7 @@ import { FaMagnifyingGlass } from 'react-icons/fa6';
 import { FaTrash } from 'react-icons/fa';
 import { CiEdit } from 'react-icons/ci';
 import Swal from 'sweetalert2';
+import { Link } from 'react-router';
 
 const MyPercel = () => {
 
@@ -73,7 +74,16 @@ const MyPercel = () => {
                                 <th>{index + 1}</th>
                                 <td>{parcel.parcelName}</td>
                                 <td>{parcel.cost}</td>
-                                <td>Edit</td>
+                                <td>
+                                    {
+                                        parcel.paymentStatus === 'paid' ?
+                                            <span className='text-green-400'>Paid</span>
+                                            :
+                                            <Link to={`/dashboard/payment/${parcel._id}`}>
+                                                <button className='btn btn-secondary text-white btn-sm'>Pay</button>
+                                            </Link>
+                                    }
+                                </td>
                                 <td>
                                     <button className="btn btn-square">
                                         <FaMagnifyingGlass />
