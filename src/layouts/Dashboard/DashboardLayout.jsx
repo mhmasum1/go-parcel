@@ -35,7 +35,7 @@ const DashboardLayout = () => {
                         {/* List item */}
                         <li></li>
                         <li>
-                            <NavLink to="/dashboard/my-percels" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="My Percels">
+                            <NavLink to="/dashboard/my-parcels" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="My Percels">
                                 {/* Percels icon */}
                                 <CiDeliveryTruck />
 
