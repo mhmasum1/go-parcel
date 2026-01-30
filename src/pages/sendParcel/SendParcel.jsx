@@ -1,6 +1,6 @@
 import React from 'react';
 import { useForm, useWatch } from 'react-hook-form';
-import { useLoaderData } from 'react-router';
+import { useLoaderData, useNavigate } from 'react-router';
 import Swal from 'sweetalert2';
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
 import useAuth from '../../Hooks/useAuth';
@@ -11,6 +11,7 @@ const SendParcel = () => {
 
     const axiosSequre = useAxiosSecure();
     const { user } = useAuth();
+    const navigate = useNavigate();
 
     const centersArea = useLoaderData();
     const duplicateRegions = centersArea.map(d => (d.region))
@@ -57,13 +58,24 @@ const SendParcel = () => {
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
-            confirmButtonText: "I agree"
+            confirmButtonText: "Confirm and continue payment "
         }).then((result) => {
             if (result.isConfirmed) {
 
                 axiosSequre.post('/parcels', data)
                     .then(res => {
                         console.log(res.data);
+
+                        if (res.data.insertedId) {
+                            navigate('/dashboard/my-parcels')
+                            Swal.fire({
+                                position: "top-end",
+                                icon: "success",
+                                title: "parcel has been created. Please Pay",
+                                showConfirmButton: false,
+                                timer: 2500
+                            });
+                        }
                     })
 
 
